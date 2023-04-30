@@ -19,6 +19,6 @@ export const errorHandler = (res, err) => {
     res.status(error?.statusCode || 500).json({
         success: false,
         status: error?.statusCode,
-        error: error.message || 'Server Error'
+        message: error.message || 'Server Error'
     })
 }

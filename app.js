@@ -27,7 +27,16 @@ app.use('/api/v1/user', userRoutes)
 app.use('/api/v1/product', productRoutes)
 app.use((req, res) => res.status(404).json({ message: `Sorry!, can't find ${req.get('host')}${req.url}` }))
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Headers', '*')
+    res.header('Access-Control-Allow-Methods', '*')
+    next()
+})
+
 connectDb()
+
+
 
 const server = app.listen(PORT, () => { console.log(`Server running on port ${PORT}...`.blue.bold) })
 

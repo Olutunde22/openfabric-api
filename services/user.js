@@ -10,8 +10,16 @@ export const register = async (userData) => {
         if (!firstName || !lastName || !email || !password) {
             throw new BadRequest('Please provide firstname, lastname, email and password')
         }
+
+        const userExists = await User.findOne({ email: email })
+        if (userExists) {
+            throw new Unauthorized('An account with this email already exists')
+        }
+
         const hashed = await hashPassword(password)
         const newUser = await User({ ...userData })
+        newUser.password = hashed.password
+        newUser.salt = hashed.salt
         const savedUser = await newUser.save()
 
         const accessToken = generateAccessToken({
